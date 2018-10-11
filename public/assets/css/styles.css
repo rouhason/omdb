@@ -1,0 +1,85 @@
+:root{
+
+  --main-color:#454849;
+  --second-color:#659584;
+  --title: 2rem;
+  --head-title:1.5rem;
+  --border-style: 1px solid black;
+}
+
+
+/*symfony default css*/
+.example-wrapper { margin: 1em auto; max-width: 1024px; width: 95%; font: 18px/1.5 sans-serif; }
+.example-wrapper code { background: #F5F5F5; padding: 2px 6px;}
+
+/*DEBUG*/
+
+.debeug{
+  outline:2px dotted tomato;
+}
+.table-head{
+  font-size:var(--head-title);
+  color:var(--main-color);
+  font-weight:bold;
+}
+
+.movie--year{
+  font-style: italic;
+
+}
+.movie-title{
+  text-transform: uppercase;
+  font-size:var(--title);
+}
+.movie--img{
+  transition: transform 0.25s ease-in, filter 0.1s linear;
+}
+.movie--img:hover{
+  filter:grayscale(50%);
+  transform:scale3d(1.05,1.05,1.05);
+}
+
+/*NAV*/
+#main-nav{
+  background-color:var(--main-color);
+  box-shadow: 0 4px 8px rgba(255,255,255,0.1);
+}
+#main-nav .navbar-item{
+  color:white;
+}
+#main-nav .navbar-item:hover{
+  background:transparent;
+  text-decoration: underline;
+}
+
+.movie--bg-thumb{
+  position:relative;
+  width:100%;
+  min-height:200px;
+  background-size:cover;
+  color:white;
+}
+
+.movie--bg-large{
+
+  background-size:cover;
+  background-repeat:no-repeat;
+  background-attachment: fixed;
+  box-shadow:inset 0 0 2px black;
+}
+.movie--plot{
+  margin-top:2rem
+}
+.movie--title-abs{
+  position:absolute;
+  top:50%;
+  left:50%;
+  translate:transform(-50%,-50%);
+  color:white;
+  text-shadow: 1px 1px 2px black;
+  font-size:3rem;
+  text-transform: uppercase;
+}
+.movie--rating-source{
+  font-style:italic;
+}

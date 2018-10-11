@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+
+{# MAIN CONTENT #}
+{% block body %}
+
+
+{# Fiche THE FILM #}
+<div class="card">
+  <div class="card-image">
+    <figure class="image is-4by3 movie--bg-large">
+        <img class="image is-4by3 movie--bg-large" src="{{ movie.Poster }}" alt="">
+        <span class="title is-4 movie--title-abs">{{ movie.Title }}</span>
+    </figure>
+  </div>
+
+  <div class="card-content">
+
+    <div class="media">
+
+      <div class="media-left">
+        <figure class="image is-48x48">
+          <img src="{{ movie.Poster }}" alt="{{movie.Title}}">
+        </figure>
+      </div>
+
+      <div class="media-content">
+
+        <h1 class="title is-4 movie--title">{{ movie.Title }}</h1>
+        <span class="subtitle is-6 movie--year">{{ movie.Year }}</span>
+        <span class="subtitle is-6 movie--real">{{ movie.Director }}</span>
+        <span class="subtitle is-6 movie--id">{{ movie.imdbID }}</span>
+
+      </div>
+
+    </div>
+
+    <p class="content movie--plot">
+        {{ movie.Plot }}
+        <a href="{{movie.Website }}"></a>
+    </p>
+
+
+   {#  on check l'api de OMDB pour récupérer les ratings en bouclant dans le tableau Ratings : ratings.source ou ratings.value #}
+    
+   {#  {% for rating in movie.Ratings %}
+        
+        <span class="movie--rating-source">{{ rating.source }}</span>
+        <span class="movie--rating-value">{{ rating.value }}</span>
+
+    {% endfor %} #}
+
+    <span class="movie--rating-source">{{ movie.imdbRating }}</span>
+    <span class="movie--rating-value">{{ movie.Metascore }}</span>
+
+
+
+  </div>
+  
+
+</div>
+
+   
+
+{% endblock %}
+
+{% block nav_view %}
+
+    {% include 'fromage/nav-view.html.twig' %}
+
+{% endblock %}
+

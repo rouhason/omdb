@@ -7,7 +7,10 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class FromageController extends AbstractController
 {
-    // Route
+
+    // private $apiKey = getenv("OMDB_APIKEY");
+
+    // Route MOVIE
 
     /**
      * @Route("/query", name="query")
@@ -16,7 +19,6 @@ class FromageController extends AbstractController
     {
 
     // Cle api
-
         $apiKey = '37c1231f';
         $query = "running";
 
@@ -29,9 +31,96 @@ class FromageController extends AbstractController
 
    // Rendu
 
-        return $this->render('fromage/index.html.twig' , [
+        return $this->render('fromage/film.html.twig' , [
                 'query' => $query,
                 'movies' => $json->Search
         ]);
     }
+
+
+    // Route Movie Single
+
+    /**
+     * @Route("/films", name="films")
+     */
+    public function filmSingle()
+    {
+
+    // Cle api
+
+        $apiKey = '37c1231f';
+        $query = "wars";
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, 'http://www.omdbapi.com/?s='. $query . '&apikey='. $apiKey);
+        curl_setopt($ch,  CURLOPT_RETURNTRANSFER, true);
+
+        $resultat_curl = curl_exec($ch);
+        $json = json_decode ($resultat_curl);
+
+   // Rendu
+
+        return $this->render('fromage/films.html.twig' , [
+                'query' => $query,
+                'movies' => $json->Search
+        ]);
+    }
+
+
+    // Route Movie + Param
+
+    /**
+     * @Route("/film_param/{query}", name="film_param")
+     */
+    public function filmParam($query)
+    {
+
+    // Cle api
+
+        $apiKey = '37c1231f';
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, 'http://www.omdbapi.com/?s='. $query . '&apikey='. $apiKey);
+        curl_setopt($ch,  CURLOPT_RETURNTRANSFER, true);
+
+        $resultat_curl = curl_exec($ch);
+        $json = json_decode ($resultat_curl);
+
+   // Rendu
+        return $this->render('fromage/film-param.html.twig' , [
+                'query' => $query,
+                'movies' => $json->Search
+        ]);
+    }
+
+    //Route Résultat Film
+
+    /**
+     * @Route("/the-film/{id}", name="the-film")
+     */
+
+public function theFilm($id)
+       
+    {
+         $api = '37c1231f';
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, 'http://www.omdbapi.com/?i='. $id . '&apikey='. $api);
+        curl_setopt($ch,  CURLOPT_RETURNTRANSFER, true);
+
+        $resultat_curl = curl_exec($ch);
+        $json = json_decode ($resultat_curl);
+
+   // Rendu
+        return $this->render('fromage/the-film.html.twig' , [
+                'id' => $id,
+                'movie' => $json
+        ]);
+    }
+
+
+
+
+
+
 }

@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+
+
+{# MAIN CONTENT #}
+{% block body %}
+
+    <div class="example-wrapper">
+
+
+<table class="table is-hoverable is-narrow">
+
+    <thead>
+
+        <tr>
+                <th class="table-head">Index</th>
+                <th class="table-head"> année </th>
+                <th class="table-head"> titre </th>
+                <th class="table-head">ID Imdb</th>
+                <th class="table-head"> Poster </th>
+                
+        </tr>
+            
+
+    </thead>
+
+    <tbody>
+
+    {% for key,movie in movies %}
+        
+            <tr>
+
+                <td class="">{{loop.index}}</td>
+                <td class="movie--year">{{ movie.Year }}</td>
+                <td class="movie--title">
+
+                    <a href="{{ url('the-film',{'id' : movie.imdbID}) }}" target="_blank">
+                        {{ movie.Title }}
+                    </a>
+
+                </td>
+                <td class="movie--id">{{movie.imdbID}}</td>
+                <td class=""> 
+
+                    <a class="movie--bg-thumb" href="{{ url('the-film',{'id' : movie.imdbID}) }}" target="_blank" style="background-image:url(' {{ movie.Poster }} ')">
+                        Découvrir le film
+                        {# <img src=" {{ movie.Poster }}" style="max-width:60%;height:auto;" class="movie--img"> #}
+                    </a>
+                    
+                </td>
+                
+
+            </tr>
+            
+
+    {% endfor %}
+
+    </tbody>
+</table>
+
+
+</div>
+
+
+
+{% endblock %}
+
+
+{% block nav_view %}
+
+    {% include 'fromage/nav-view.html.twig' %}
+
+{% endblock %}
+
+
+{% block search %}
+
+    {% include 'fromage/search.html.twig' %}
+
+{% endblock %}
+
+
+
+

@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{# MAIN CONTENT #}
+{% block body %}
+
+    <div class="example-wrapper">
+
+        <table class="table is-hoverable is-narrow">
+            <thead>
+            <tr>
+                <th> Index </th>
+                <th> Option </th>
+                <th> Description </th>
+            </tr>
+                {% for movie in movies %}
+                    <li>
+                        <b> {{ movie.Title }}</b>
+                        <img src="{{ movie.Poster}}">>
+                    </li>
+                {% endfor %}
+            </thead>
+
+        </table>
+
+    </div>
+
+
+{% endblock %}
+
+
+{% block nav_view %}
+
+    {% include 'fromage/nav-view.html.twig' %}
+
+{% endblock %}
+
+
+
