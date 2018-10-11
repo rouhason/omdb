@@ -41,9 +41,9 @@
                 <td class="movie--id">{{movie.imdbID}}</td>
                 <td class=""> 
 
-                    <a class="movie--bg-thumb" href="{{ url('the-film',{'id' : movie.imdbID}) }}" target="_blank" style="background-image:url(' {{ movie.Poster }} ')">
+                    <a class="movie--bg-thumb" href="{{ url('the-film',{'id' : movie.imdbID}) }}" target="_blank">
                         Découvrir le film
-                        {# <img src=" {{ movie.Poster }}" style="max-width:60%;height:auto;" class="movie--img"> #}
+                        <img src=" {{ movie.Poster }}" style="max-width:60%;height:auto;" class="movie--img">
                     </a>
                     
                 </td>

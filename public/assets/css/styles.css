@@ -61,7 +61,8 @@
 }
 
 .movie--bg-large{
-
+  width:100%;
+  min-height:350px;
   background-size:cover;
   background-repeat:no-repeat;
   background-attachment: fixed;
@@ -74,10 +75,10 @@
   position:absolute;
   top:50%;
   left:50%;
-  translate:transform(-50%,-50%);
-  color:white;
-  text-shadow: 1px 1px 2px black;
-  font-size:3rem;
+  transform:translate(-50%,-50%);
+  color:white !important;
+  text-shadow: 1px 1px 1px black;
+  font-size:5rem;
   text-transform: uppercase;
 }
 .movie--rating-source{
