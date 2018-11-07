@@ -2,6 +2,8 @@
 
   --main-color:#454849;
   --second-color:#659584;
+  --gris:#e1e1e1;
+  --gris-rgb:225,225,225;
   --title: 2rem;
   --head-title:1.5rem;
   --border-style: 1px solid black;
@@ -37,6 +39,11 @@
 .movie--img:hover{
   filter:grayscale(50%);
   transform:scale3d(1.05,1.05,1.05);
+}
+.movie--poster{
+  width:100%;
+  object-fit:cover;
+  height:auto;
 }
 
 /*NAV*/
@@ -83,4 +90,37 @@
 }
 .movie--rating-source{
   font-style:italic;
+}
+
+.card-post{
+  transition:all 0.25s ease-in;
+}
+.card-post:hover{
+  transform:translateY(-5px);
+ }
+.card-header{
+  flex-direction:column;
+  justify-content: center;
+  align-items:center;
+}
+
+/*THE MOVIE PAGE*/
+
+.the-movie--src{
+  font-weight:bold;
+}
+.the-movie--ratio{
+  font-size:1rem;
+}
+.the-movie--title{
+
+}
+.the-movie--date{}
+.the-movie--poster{
+}
+.the-movie--ratings{
+
+}
+.the-movie--plot{
+  background-color:var(--gris-rgb);
 }

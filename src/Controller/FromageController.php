@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -60,10 +60,21 @@ class FromageController extends AbstractController
 
    // Rendu
 
-        return $this->render('fromage/films.html.twig' , [
+        if(isset($json->Search))
+        {
+            // Rendu si données
+            return $this->render('fromage/films.html.twig' , [
                 'query' => $query,
                 'movies' => $json->Search
-        ]);
+            ]);
+        }
+        else {
+            //Rendu PBM
+            return $this->render('fromage/errors.html.twig' , [
+                'query' => $query,
+            ]);
+        }
+
     }
 
 
@@ -122,25 +133,15 @@ public function theFilm($id)
     /**
      * @Route("/recherche", name="recherche")
      */
-    public functionQuery (Request $request)
+    public function Query (Request $request)
     {
+//   analyser le contenu de l'objet request'
+        $result = $request->query -> get('nom-film');
+        dump($result);
 
-        // Cle api
-        $apiKey = '37c1231f';
-        $query = "wars";
-
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, 'http://www.omdbapi.com/?s='. $query . '&apikey='. $apiKey);
-        curl_setopt($ch,  CURLOPT_RETURNTRANSFER, true);
-
-        $resultat_curl = curl_exec($ch);
-        $json = json_decode ($resultat_curl);
-
-        // Rendu
-
-        return $this->render('fromage/films.html.twig' , [
-            'query' => $query,
-            'movies' => $json->Search
+        // Redirection vers l'action du contrôleur qui va afficher la liste des films avec ce paramètre (ma recherche)
+            return $this->redirectToRoute('film_param' , [
+            'query' => $request->query -> get('nom-film')
         ]);
     }
 

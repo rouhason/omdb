@@ -18,6 +18,43 @@
     <!-- End Page Header -->
 
 
+    <!-- Default Light Table -->
+    <div class="row">
+        <div class="col">
+            <div class="card card-small mb-4">
+                <div class="card-header border-bottom">
+                    <h6 class="m-0">Les Films</h6>
+                </div>
+                <div class="card-body p-0 pb-3 text-center">
+                    <table class="table mb-0">
+                        <thead class="bg-light">
+                        <tr>
+                            <th scope="col" class="border-0">#</th>
+                            <th scope="col" class="border-0">Titre</th>
+                            <th scope="col" class="border-0">Année</th>
+                            {#<th scope="col" class="border-0">Réalisateur</th>#}
+                            <th scope="col" class="border-0">Id IMDB</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for key,movie in movies %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td><a href="{{ url('the-film',{'id' : movie.imdbID}) }}"> {{ movie.Title }}</a></td>
+                            <td>{{ movie.Year }}</td>
+                            {#<td>{{ movie.Author }}</td>#}
+                            <td>{{movie.imdbID}}</td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Default Light Table -->
+
+
     <div class="row movie-list">
 
             {% for key,movie in movies %}
@@ -33,7 +70,7 @@
                     </div>
                     <div class="card-body">
                         <h5 class="card-title">
-                            <a class="text-fiord-blue" href="#">{{ movie.Title }}</a>
+                            <a class="text-fiord-blue" href="{{ url('the-film',{'id' : movie.imdbID}) }}">{{ movie.Title }}</a>
                         </h5>
                         <p class="card-text d-inline-block mb-3">Conviction up partiality as delightful is discovered. Yet jennings resolved disposed exertion you off. Left did fond drew fat head poor jet pan flying over...</p>
                         <span class="text-muted">{{ movie.Year }}</span>
