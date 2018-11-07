@@ -3,7 +3,17 @@
 {# MAIN CONTENT #}
 {% block body %}
 
+    {#TITLE PAGE#}
 
+    <!-- Page Header -->
+    <div class="page-header row no-gutters py-4">
+        <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+            <span class="text-uppercase page-subtitle">Vue sur....</span>
+            <h3 class="page-title">Page TheFilm</h3>
+        </div>
+    </div>
+
+    <!-- End Page Header -->
 {# Fiche THE FILM #}
 <div class="card">
   <div class="card-image">
@@ -21,7 +31,6 @@
       <div class="media-left">
         <figure class="image is-48x48">
           <img src="{{ movie.Poster }}" alt="{{movie.Title}}">
-          
         </figure>
       </div>
 
@@ -45,8 +54,8 @@
     
     {% for rating in movie.Ratings %}
         
-        <span class="movie--rating-source">{{ rating.Source }}</span>
-        <span class="movie--rating-value">{{ rating.Value }}</span>
+        <span class="movie--rating-source"> Note 1 : {{ rating.Source }}</span>
+        <span class="movie--rating-value">Note 2 : {{ rating.Value }}</span>
 
     {% endfor %}
 
@@ -62,8 +71,6 @@
   
 
 </div>
-
-   
 
 {% endblock %}
 

@@ -1,57 +1,98 @@
 {% extends 'base.html.twig' %}
 
+
+
 {# MAIN CONTENT #}
 {% block body %}
 
-    <div class="example-wrapper">
+
+    {#TITLE PAGE#}
+
+    <!-- Page Header -->
+    <div class="page-header row no-gutters py-4">
+        <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+            <span class="text-uppercase page-subtitle">Vue sur....</span>
+            <h3 class="page-title">Recherche par défaut : $Query = Running </h3>
+        </div>
+    </div>
+    <!-- End Page Header -->
 
 
-<table class="table is-hoverable is-narrow">
+    <div class="row movie-list">
 
-    <thead>
+            {% for key,movie in movies %}
 
-        <tr>
-                <th class="table-head">Index</th>
-                <th class="table-head"> année </th>
-                <th class="table-head"> titre </th>
-                <th class="table-head">ID Imdb</th>
-                <th class="table-head"> Poster </th>
-                
-        </tr>
-            
+            <div class="col-lg-6 col-sm-12 mb-4">
 
-    </thead>
+                <div class="card card-small card-post card-post--aside card-post--1">
+                    <div class="card-post__image" style="background-image: url('{{ movie.Poster }}');">
+                        <a href="#" class="card-post__category badge badge-pill badge-info">{{movie.imdbID}}</a>
+                        <div class="card-post__author d-flex">
+                            <a href="#" class="card-post__author-avatar card-post__author-avatar--small" style="background-image: url('images/avatars/0.jpg');">{{loop.index}}</a>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <a class="text-fiord-blue" href="#">{{ movie.Title }}</a>
+                        </h5>
+                        <p class="card-text d-inline-block mb-3">Conviction up partiality as delightful is discovered. Yet jennings resolved disposed exertion you off. Left did fond drew fat head poor jet pan flying over...</p>
+                        <span class="text-muted">{{ movie.Year }}</span>
+                    </div>
+                </div>
 
-    <tbody>
+            </div>
+        {% endfor %}
 
-    {% for key,movie in movies %}
-        
-          
-            <tr>
-                <td class="">{{loop.index}}</td>
-                <td class="movie--year">{{ movie.Year }}</td>
-                <td class="movie--title">{{ movie.Title }}</td>
-                <td class="movie--id">{{movie.imdbID}}</td>
-                <td class=""> 
-                    <a href=" {{ movie.Poster }}" target="_blank">
-                        
-                        <img src=" {{ movie.Poster }}" style="max-width:60%;height:auto;" class="movie--img">
+    </div>
 
-                    </a>
-                    
-                </td>
-                
-
-            </tr>
-            
-
-    {% endfor %}
-
-    </tbody>
-</table>
+    {#<div class="example-wrapper">#}
 
 
-</div>
+        {#<table class="table is-hoverable is-narrow">#}
+
+            {#<thead>#}
+
+            {#<tr>#}
+                {#<th class="table-head">Index</th>#}
+                {#<th class="table-head"> année </th>#}
+                {#<th class="table-head"> titre </th>#}
+                {#<th class="table-head">ID Imdb</th>#}
+                {#<th class="table-head"> Poster </th>#}
+
+            {#</tr>#}
+
+
+            {#</thead>#}
+
+            {#<tbody>#}
+
+            {#{% for key,movie in movies %}#}
+
+
+                {#<tr>#}
+                    {#<td class="">{{loop.index}}</td>#}
+                    {#<td class="movie--year">{{ movie.Year }}</td>#}
+                    {#<td class="movie--title">{{ movie.Title }}</td>#}
+                    {#<td class="movie--id">{{movie.imdbID}}</td>#}
+                    {#<td class="">#}
+                        {#<a href=" {{ movie.Poster }}" target="_blank">#}
+
+                            {#<img src=" {{ movie.Poster }}" style="max-width:60%;height:auto;" class="movie--img">#}
+
+                        {#</a>#}
+
+                    {#</td>#}
+
+
+                {#</tr>#}
+
+            {#{% endfor %}#}
+
+            {#</tbody>#}
+
+        {#</table>#}
+
+    {#</div>#}
 
 {% endblock %}
 

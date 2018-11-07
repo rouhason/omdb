@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -13,7 +14,7 @@ class FromageController extends AbstractController
     // Route MOVIE
 
     /**
-     * @Route("/query", name="query")
+     * @Route("/", name="default")
      */
     public function index()
     {
@@ -39,7 +40,6 @@ class FromageController extends AbstractController
 
 
     // Route Movie Single
-
     /**
      * @Route("/films", name="films")
      */
@@ -100,7 +100,7 @@ class FromageController extends AbstractController
      */
 
 public function theFilm($id)
-       
+
     {
          $api = '37c1231f';
 
@@ -118,6 +118,31 @@ public function theFilm($id)
         ]);
     }
 
+    // Route Recherche
+    /**
+     * @Route("/recherche", name="recherche")
+     */
+    public functionQuery (Request $request)
+    {
+
+        // Cle api
+        $apiKey = '37c1231f';
+        $query = "wars";
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, 'http://www.omdbapi.com/?s='. $query . '&apikey='. $apiKey);
+        curl_setopt($ch,  CURLOPT_RETURNTRANSFER, true);
+
+        $resultat_curl = curl_exec($ch);
+        $json = json_decode ($resultat_curl);
+
+        // Rendu
+
+        return $this->render('fromage/films.html.twig' , [
+            'query' => $query,
+            'movies' => $json->Search
+        ]);
+    }
 
 
 
