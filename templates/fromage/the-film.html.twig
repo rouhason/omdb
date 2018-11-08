@@ -17,7 +17,7 @@
 {# Fiche THE FILM #}
 <div class="card" id="page-content">
   <div class="card-image">
-    <div class="image movie--bg-large" style="background-image:url('{{movie.Poster}}');">
+    <div class="image movie--bg-large para-card" style="background-image:url('{{movie.Poster}}');">
         {# <img class="image is-4by3 movie--bg-large" src="{{ movie.Poster }}" alt=""> #}
         <h1 class="title is-4 movie--title-abs">{{ movie.Title }}</h1>
         {#<span class="subtitle is-6 movie--id"> Id : {{ movie.imdbID }}</span>#}
@@ -51,7 +51,6 @@
 
 
    {#  on check l'api de OMDB pour récupérer les ratings en bouclant dans le tableau Ratings : ratings.source ou ratings.value #}
-    
 
             <h4>Sources et Notes</h4>
             {% for rating in movie.Ratings %}
@@ -80,7 +79,7 @@
                           <h4 class="mb-0"><a href="{{movie.Website }}">{{ movie.Title}}</a></h4>
                           <span class="text-muted d-block mb-2">Année: {{ movie.Year }}</span>
                           <a href="{{movie.Website }}" class="mb-2 btn btn-sm btn-pill btn-outline-primary mr-2">
-                              <i class="material-icons mr-1">person_add</i>Site du film </a>
+                              <i class="material-icons  custom-icons">link</i>Site du film </a>
                       </div>
                       <ul class="list-group list-group-flush">
                           <li class="list-group-item px-4">
@@ -107,7 +106,7 @@
               <div class="col-lg-6">
                   <div class="card card-small mb-4">
                       <div class="card-header border-bottom">
-                          <h6 class="m-0">Partager la fiche...</h6>
+                          <h6 class="m-0"><i class="material-icons custom-icons">contact_mail</i>Partager la fiche</h6>
                       </div>
                       <ul class="list-group list-group-flush">
                           <li class="list-group-item p-3">
@@ -141,7 +140,7 @@
                                                   <input type="text" name="imdbID" class="form-control" id="hidden-id" value="{{ movie.imdbID }}" aria-hidden="true" readonly>
                                               </div>
                                           </div>
-                                          <button type="submit" class="btn btn-accent">Envoyer la fiche !</button>
+                                          <button type="submit" class="btn btn-accent"><i class="material-icons custom-icons">email</i>Envoyer la fiche !</button>
                                       </form>
                                   </div>
                               </div>

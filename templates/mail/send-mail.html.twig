@@ -9,7 +9,7 @@
     <div class="page-header row no-gutters py-4" id="page-heading">
         <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
             <span class="text-uppercase page-subtitle">Envoyer la fiche de {{ movie.Title }}</span>
-            <h3 class="page-title">Pour {{ nom }} @ {{ mail }}</h3>
+            <h3 class="page-title">Pour {{ nom }} @ {{ email }}</h3>
         </div>
     </div>
     <!-- End Page Header -->
@@ -28,6 +28,12 @@
                         <div class="d-flex flex-column justify-content-center ml-3">
                             <span class="card-post__author-name">{{ movie.Director }}</span>
                             <small class="text-muted">{{ movie.Year }}</small>
+                        </div>
+                        <div class="d-flex flex-column justify-content-center ml-3">
+                            {% for rating in movie.Ratings %}
+                            <span class="card-post__author-name">{{ rating.Source }}</span>
+                            <small class="text-muted">{{ rating.Value }}</small>
+                            {% endfor %}
                         </div>
                     </div>
                     <div class="my-auto ml-auto">

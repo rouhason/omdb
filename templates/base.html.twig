@@ -47,6 +47,13 @@
 
               </div>
 
+                {# you can read and display just one flash message type... #}
+                {% for message in app.flashes('success') %}
+                    <div class="flash-notice">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+
                 {% block footer %}
 
                     {% include 'fromage/nav-footer.html.twig' %}
@@ -60,6 +67,8 @@
     </div>
 
 
+
+
      {% block javascripts %}
        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
@@ -69,6 +78,8 @@
        <script src="https://cdnjs.cloudflare.com/ajax/libs/Sharrre/2.0.1/jquery.sharrre.min.js"></script>
        <script src="scripts/extras.1.1.0.min.js"></script>
        <script src="scripts/shards-dashboards.1.1.0.min.js"></script>
+         {#CustomJS#}
+         <script src="../assets/scripts/main.js"></script>
      {% endblock %}
 
 

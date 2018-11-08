@@ -144,21 +144,60 @@ public function theFilm($id)
         ]);
     }
 
+
     // Route Send Mail
     /**
      * @Route("/mail", name="send-mail")
      */
-    public function EmailSend (Request $request)
-    {
-//   analyser le contenu de l'objet request' : soit un par un au niveau des input (name = 'key')
-///        $result = $request->query -> get('email-dest');
 
+//    public function EmailSend (Request $request)
+//    {
+////        on utilise les injections de dépendances avec request-swift_mail  (et var)
+//
+////   analyser le contenu de l'objet request' : soit un par un au niveau des input (name = 'key')
+/////        $result = $request->query -> get('email-dest');
+//
+////        soit avec une récupération globale des données du form via request->all()
+//        $result = $request->request -> all();
+//        dump($result);
+////        dump($result['imdbID']);
+////        die;
+//
+//
+//        //Recupérer les données du film (sinon ça marchera pas ><)
+//        $api = '37c1231f';
+//
+//        $ch = curl_init();
+//        curl_setopt($ch, CURLOPT_URL, 'http://www.omdbapi.com/?i='. $result['imdbID'] . '&apikey='. $api);
+//        curl_setopt($ch,  CURLOPT_RETURNTRANSFER, true);
+//
+//        $resultat_curl = curl_exec($ch);
+//        $json = json_decode ($resultat_curl);
+//
+//        // Redirection vers l'action du contrôleur qui va afficher la liste des films avec ce paramètre (ma recherche)
+//
+////            Gabarit dans une vue sur le site
+//        return $this->render('mail/send-mail.html.twig',[
+//            'movie'=>$json,
+//            'nom' => $result['nom-dest'],
+//            'email' =>$result['email-dest'],
+//            'sujet' =>$result['sujet-dest'],
+//            'description'=> $result['description-dest'],
+//        ]);
+//    }
+
+
+
+    // Route Send Mail
+    /**
+     * @Route("/mail", name="send-mail")
+     */
+    public function EmailSend (Request $request, \Swift_Mailer $mailer)
+    {
+//        on utilise les injections de dépendances avec request-swift_mail  (et var)
 //        soit avec une récupération globale des données du form via request->all()
         $result = $request->request -> all();
         dump($result);
-//        dump($result['imdbID']);
-//        die;
-
 
     //Recupérer les données du film (sinon ça marchera pas ><)
         $api = '37c1231f';
@@ -170,14 +209,38 @@ public function theFilm($id)
         $resultat_curl = curl_exec($ch);
         $json = json_decode ($resultat_curl);
 
-        // Redirection vers l'action du contrôleur qui va afficher la liste des films avec ce paramètre (ma recherche)
-        return $this->render('mail/send-mail.html.twig',[
+
+//        Gabarit EMAIL : on utilise une valeur de stockage à la place de output
+        $output=  $this->render('mail/mail-template.html.twig',[
             'movie'=>$json,
             'nom' => $result['nom-dest'],
             'email' =>$result['email-dest'],
             'sujet' =>$result['sujet-dest'],
             'description'=> $result['description-dest'],
         ]);
+
+//        Création d'un objet swift message
+        $message = (new \Swift_Message('Un utilisateur veut vous partager un film:'))
+            ->setFrom('mamen@bangbros.fr')
+            ->setTo($result['email-dest']) //adresse mail du request
+            ->setBody(
+                $output,'text/html'
+            );
+
+//        Appel du facteur d'email, objet qui va transmettre les data
+        $mailer->send( $message );
+
+        //Réponse de traitement (controller = réponse obligatoire)
+        $this->addFlash(
+            'success',
+            'message envoyé !'
+        );
+
+        return $this->redirectToRoute('the-film' , [
+            'id' => $result['imdbID']
+        ]);
+
+
     }
 
 
