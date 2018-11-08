@@ -59,8 +59,7 @@ class FromageController extends AbstractController
         $json = json_decode ($resultat_curl);
 
    // Rendu
-
-        if(isset($json->Search))
+        if( isset($json->Search) )
         {
             // Rendu si données
             return $this->render('fromage/films.html.twig' , [
@@ -144,6 +143,43 @@ public function theFilm($id)
             'query' => $request->query -> get('nom-film')
         ]);
     }
+
+    // Route Send Mail
+    /**
+     * @Route("/mail", name="send-mail")
+     */
+    public function EmailSend (Request $request)
+    {
+//   analyser le contenu de l'objet request' : soit un par un au niveau des input (name = 'key')
+///        $result = $request->query -> get('email-dest');
+
+//        soit avec une récupération globale des données du form via request->all()
+        $result = $request->request -> all();
+        dump($result);
+//        dump($result['imdbID']);
+//        die;
+
+
+    //Recupérer les données du film (sinon ça marchera pas ><)
+        $api = '37c1231f';
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, 'http://www.omdbapi.com/?i='. $result['imdbID'] . '&apikey='. $api);
+        curl_setopt($ch,  CURLOPT_RETURNTRANSFER, true);
+
+        $resultat_curl = curl_exec($ch);
+        $json = json_decode ($resultat_curl);
+
+        // Redirection vers l'action du contrôleur qui va afficher la liste des films avec ce paramètre (ma recherche)
+        return $this->render('mail/send-mail.html.twig',[
+            'movie'=>$json,
+            'nom' => $result['nom-dest'],
+            'email' =>$result['email-dest'],
+            'sujet' =>$result['sujet-dest'],
+            'description'=> $result['description-dest'],
+        ]);
+    }
+
 
 
 

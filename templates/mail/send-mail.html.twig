@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{# MAIN CONTENT #}
+{% block body %}
+
+    {#TITLE PAGE#}
+
+    <!-- Page Header -->
+    <div class="page-header row no-gutters py-4" id="page-heading">
+        <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+            <span class="text-uppercase page-subtitle">Envoyer la fiche de {{ movie.Title }}</span>
+            <h3 class="page-title">Pour {{ nom }} @ {{ mail }}</h3>
+        </div>
+    </div>
+    <!-- End Page Header -->
+
+{# Fiche THE FILM #}
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="card card-small card-post mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">{{ movie.Title }}</h5>
+                    <p class="card-text text-muted"> {{ movie.Plot }}</p>
+                </div>
+                <div class="card-footer border-top d-flex">
+                    <div class="card-post__author d-flex">
+                        <a href="{{ movie.Website }}" class="card-post__author-avatar card-post__author-avatar--small" style="background-image: url('{{ movie.Poster }});">{{movie.Title}}</a>
+                        <div class="d-flex flex-column justify-content-center ml-3">
+                            <span class="card-post__author-name">{{ movie.Director }}</span>
+                            <small class="text-muted">{{ movie.Year }}</small>
+                        </div>
+                    </div>
+                    <div class="my-auto ml-auto">
+                        <a class="btn btn-sm btn-white" href="{{ email }}">
+                            <i class="far fa-bookmark mr-1"></i> Email</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block nav_view %}
+
+    {% include 'fromage/nav-view.html.twig' %}
+
+{% endblock %}
+

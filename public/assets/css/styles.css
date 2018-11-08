@@ -9,6 +9,14 @@
   --border-style: 1px solid black;
 }
 
+@supports (scroll-behavior:smooth) {
+
+    body, html{
+      scroll-behavior:smooth;
+    }
+
+}
+
 
 /*symfony default css*/
 .example-wrapper { margin: 1em auto; max-width: 1024px; width: 95%; font: 18px/1.5 sans-serif; }
@@ -47,6 +55,10 @@
 }
 
 /*NAV*/
+#main-logo{
+  width:150px;
+  height:auto;
+}
 #main-nav{
   background-color:var(--main-color);
   box-shadow: 0 4px 8px rgba(255,255,255,0.1);
