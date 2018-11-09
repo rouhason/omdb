@@ -47,13 +47,6 @@
 
               </div>
 
-                {# you can read and display just one flash message type... #}
-                {% for message in app.flashes('success') %}
-                    <div class="flash-notice">
-                        {{ message }}
-                    </div>
-                {% endfor %}
-
                 {% block footer %}
 
                     {% include 'fromage/nav-footer.html.twig' %}

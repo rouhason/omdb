@@ -60,100 +60,138 @@
                 </ul>
             {% endfor %}
 
-    <div class="debeu">
+    <div class="">
 
         <span class="movie--rating-source">{{ movie.imdbRating }}</span>
 
         <span class="movie--rating-value">{{ movie.Metascore }}</span>
+
+        <div class="debeug"> la moyenne est <span class="movie--rating-value">{{ moyenne }} </span></div>
 </div>
 
-      <!-- FIlm Description 2 -->
-      <div class="row">
 
-              <div class="col-lg-6">
-                  <div class="card card-small mb-4 pt-3">
-                      <div class="card-header border-bottom text-center ">
-                          <div class="mb-3 mx-auto movie--poster" >
-                              <img class="" src="{{ movie.Poster }}" alt="Affiche du film {{ movie.Title }}"  width="100%">
-                          </div>
-                          <h4 class="mb-0"><a href="{{movie.Website }}">{{ movie.Title}}</a></h4>
-                          <span class="text-muted d-block mb-2">Année: {{ movie.Year }}</span>
-                          <a href="{{movie.Website }}" class="mb-2 btn btn-sm btn-pill btn-outline-primary mr-2">
-                              <i class="material-icons  custom-icons">link</i>Site du film </a>
-                      </div>
-                      <ul class="list-group list-group-flush">
-                          <li class="list-group-item px-4">
-                              {% for rating in movie.Ratings %}
-                                <div class="progress-wrapper">
-                                  <strong class="text-muted d-block mb-2">{{ rating.Source }}</strong>
-                                  <div class="progress progress-sm">
-                                      <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="74" aria-valuemin="0" aria-valuemax="100" style="width: 74%;">
-                                          <span class="progress-value">{{ rating.Value }}</span>
-                                      </div>
-                                  </div>
-                              </div>
-                              {% endfor %}
-                          </li>
-                          <li class="list-group-item p-4 the-movie--plot">
-                              <strong class="text-muted d-block mb-2">Résumé</strong>
-                              <span>{{ movie.Plot }}</span>
-                          </li>
-                      </ul>
-                  </div>
-              </div>
+      <form action="{{ url('vote-film') }}" method="post">
 
-              {#Form Send#}
-              <div class="col-lg-6">
-                  <div class="card card-small mb-4">
-                      <div class="card-header border-bottom">
-                          <h6 class="m-0"><i class="material-icons custom-icons">contact_mail</i>Partager la fiche</h6>
-                      </div>
-                      <ul class="list-group list-group-flush">
-                          <li class="list-group-item p-3">
-                              <div class="row">
-                                  <div class="col">
-                                      <form action="{{ url('send-mail') }}" method="post">
-                                          <div class="form-row">
-                                              <div class="form-group col-md-6">
-                                                  <label for="feFirstName">Nom</label>
-                                                  <input type="text" class="form-control" id="feFirstName" placeholder="Nom du Bro' " value="" name="nom-dest">
-                                              </div>
-                                              <div class="form-group col-md-6">
-                                                  <label for="feEmailAddress">Email</label>
-                                                  <input type="email" class="form-control" id="feEmailAddress" placeholder="Email du Bro'" value="" name="email-dest">
-                                              </div>
-                                          </div>
-                                          <div class="form-row">
-                                              <div class="form-group col-md-10">
-                                                  <label for="feLastName">Sujet</label>
-                                                  <input type="text" class="form-control" id="feLastName" placeholder="Sujet du partage" value="" name="sujet-dest">
-                                              </div>
-                                          </div>
-                                          <div class="form-row">
-                                              <div class="form-group col-md-12">
-                                                  <label for="feDescription">Description</label>
-                                                  <textarea  class="form-control" id="feDescription" placeholder="Sujet du partage" value="" rows="5" name="description-dest"></textarea>
-                                              </div>
-                                          </div>
-                                          <div class="form-row">
-                                              <div class="form-group col-md-12">
-                                                  <input type="text" name="imdbID" class="form-control" id="hidden-id" value="{{ movie.imdbID }}" aria-hidden="true" readonly>
-                                              </div>
-                                          </div>
-                                          <button type="submit" class="btn btn-accent"><i class="material-icons custom-icons">email</i>Envoyer la fiche !</button>
-                                      </form>
-                                  </div>
-                              </div>
-                          </li>
-                      </ul>
-                  </div>
-              </div>
+          <a href="{{ url('nouveau-vote', { "imdbID" :  movie.imdbID, "note" : 5  })  }}"><i class="material-icons custom-icons">keyboard_tab</i>Lien de vote</a>
+          {#<span class="movie--rating-source">{{ ratio }}</span>#}
 
-      </div>
-      <!-- End Form Send -->
+        <div class="form-group col-md-3">
+                <label for="inputState">Donnez votre note</label>
+                <select id="inputState" class="form-control select-dropdown" name="note-film">
+                      <option selected>Note...</option>
+                      <option>1</option>
+                      <option>2</option>
+                      <option>3</option>
+                      <option>4</option>
+                      <option>5</option>
+              </select>
+            <input type="hidden" name="imdbID" class="form-control" id="hidden-id" value="{{ movie.imdbID }}" aria-hidden="true" readonly>
+            <input type="hidden" name="nom-film" class="form-control" id="hidden-film" value="{{ movie.Title }}" aria-hidden="true" readonly>
+        </div>
+          <button type="submit" class="btn btn-accent"><i class="material-icons custom-icons">email</i>Voter !</button>
+      </form>
 
+      {# you can read and display just one flash message type... #}
+      {% for message in app.flashes('success') %}
+          <div class="flash-notice debeug">
+              {{ message }}
+          </div>
+      {% endfor %}
 
   </div>
+
+
+    <!-- FIlm Description 2 -->
+    <div class="row">
+
+        <div class="col-lg-6">
+            <div class="card card-small mb-4 pt-3">
+                <div class="card-header border-bottom text-center ">
+                    <div class="mb-3 mx-auto movie--poster" >
+                        <img class="" src="{{ movie.Poster }}" alt="Affiche du film {{ movie.Title }}"  width="100%">
+                    </div>
+                    <h4 class="mb-0"><a href="{{movie.Website }}">{{ movie.Title}}</a></h4>
+                    <span class="text-muted d-block mb-2">Année: {{ movie.Year }}</span>
+                    <a href="{{movie.Website }}" class="mb-2 btn btn-sm btn-pill btn-outline-primary mr-2">
+                        <i class="material-icons  custom-icons">link</i>Site du film </a>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item px-4">
+                        {% for rating in movie.Ratings %}
+                            <div class="progress-wrapper">
+                                <strong class="text-muted d-block mb-2">{{ rating.Source }}</strong>
+                                <div class="progress progress-sm">
+                                    <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="74" aria-valuemin="0" aria-valuemax="100" style="width: 74%;">
+                                        <span class="progress-value">{{ rating.Value }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </li>
+                    <li class="list-group-item p-4 the-movie--plot">
+                        <strong class="text-muted d-block mb-2">Résumé</strong>
+                        <span>{{ movie.Plot }}</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        {#Form Send#}
+        <div class="col-lg-6">
+            <div class="card card-small mb-4">
+                <div class="card-header border-bottom">
+                    <h6 class="m-0"><i class="material-icons custom-icons">contact_mail</i>Partager la fiche</h6>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item p-3">
+                        <div class="row">
+                            <div class="col">
+                                <form action="{{ url('send-mail') }}" method="post">
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="feFirstName">Nom</label>
+                                            <input type="text" class="form-control" id="feFirstName" placeholder="Nom du Bro' " value="" name="nom-dest">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="feEmailAddress">Email</label>
+                                            <input type="email" class="form-control" id="feEmailAddress" placeholder="Email du Bro'" value="" name="email-dest">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-10">
+                                            <label for="feLastName">Sujet</label>
+                                            <input type="text" class="form-control" id="feLastName" placeholder="Sujet du partage" value="" name="sujet-dest">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-12">
+                                            <label for="feDescription">Description</label>
+                                            <textarea  class="form-control" id="feDescription" placeholder="Sujet du partage" value="" rows="5" name="description-dest"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-12">
+                                            <input type="text" name="imdbID" class="form-control" id="hidden-id" value="{{ movie.imdbID }}" aria-hidden="true" readonly>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-accent"><i class="material-icons custom-icons">email</i>Envoyer la fiche !</button>
+                                </form>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        {# you can read and display just one flash message type... #}
+        {% for message in app.flashes('success') %}
+            <div class="flash-notice debeug">
+                {{ message }}
+            </div>
+        {% endfor %}
+
+    </div>
+    <!-- End Form Send -->
   
 
 </div>

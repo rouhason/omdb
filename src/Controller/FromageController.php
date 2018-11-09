@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Vote;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -96,11 +97,23 @@ class FromageController extends AbstractController
         $resultat_curl = curl_exec($ch);
         $json = json_decode ($resultat_curl);
 
-   // Rendu
-        return $this->render('fromage/film-param.html.twig' , [
+        if (isset($json->Search)) {
+
+            // Rendu
+            return $this->render('fromage/film-param.html.twig' , [
                 'query' => $query,
                 'movies' => $json->Search
-        ]);
+            ]);
+
+        }  else {
+                // Rendu
+                return $this->render('fromage/errors.html.twig' , [
+                    'query' => $query,
+                    'prout' => 'très drôle',
+                ]);
+
+        }
+
     }
 
     //Route Résultat Film
@@ -121,10 +134,17 @@ public function theFilm($id)
         $resultat_curl = curl_exec($ch);
         $json = json_decode ($resultat_curl);
 
+
+        //Récupération de la moyenne des notes
+        $moyenne = $this->getDoctrine()
+            ->getRepository(Vote::class)
+            ->findAverage($id);
+
    // Rendu
         return $this->render('fromage/the-film.html.twig' , [
                 'id' => $id,
-                'movie' => $json
+                'movie' => $json,
+            'moyenne' => $moyenne
         ]);
     }
 
@@ -186,8 +206,6 @@ public function theFilm($id)
 //        ]);
 //    }
 
-
-
     // Route Send Mail
     /**
      * @Route("/mail", name="send-mail")
@@ -240,12 +258,119 @@ public function theFilm($id)
             'id' => $result['imdbID']
         ]);
 
+    }
+
+    //Route Vote
+    /**
+     * @Route("/nouveauvote/{imdbID}/{note}", name="nouveau-vote")
+     */
+
+    public function VoteFilm ($imdbID, $note)
+    {
+//        dd($imdbID, $note);
+        // vaut dump and die
+
+// class entité qui représente une table, en POO : on fait new object
+        $vote = new Vote();
+        //function créer dans la class VOTE dans Vote.php
+
+//        j'affecte l'id IMDB à partir du param
+   $vote->setImdbID($imdbID);
+
+//   j'affecte la note à partir du param
+   $vote->setNote($note);
+
+// on check les données
+//   dd($vote);
+
+//  Appel au gestionnaire d'entités fournis par Doctrine
+$entityManager = $this ->getDoctrine()->getManager();
+
+//on demande au gestionnaire d'entités de persister : génération de requete SQL (prépa)
+        $entityManager -> persist($vote);
+
+        //on demande au gestionnaire d'entités d'executer les requetes en attente (flush = tirer la chasse)
+        $entityManager -> flush();
+
+
+        //Message de confirmation d'envois de données
+        $this->addFlash(
+            'success',
+            'votre note a été pris en compte'
+        );
+
+        //Renvoi des données et affichage de la vue
+        return $this->redirectToRoute('the-film' , [
+            'id' => $imdbID
+        ]);
+
+
+
+        //Recupérer les données du film (sinon ça marchera pas ><)
+//        $api = '37c1231f';
+//
+//        $ch = curl_init();
+//        curl_setopt($ch, CURLOPT_URL, 'http://www.omdbapi.com/?i='. $imdbID . '&apikey='. $api);
+//        curl_setopt($ch,  CURLOPT_RETURNTRANSFER, true);
+//
+//        $resultat_curl = curl_exec($ch);
+//        $json = json_decode ($resultat_curl);
+
+
+
 
     }
 
 
+    // Route Nouveau Vote
+    /**
+     * @Route("/votefilm", name="vote-film")
+     */
+
+    public function NewVoteFilm (Request $request)
+    {
+        $note = $request->request -> get('note-film');
+        $imdbID = $request -> request -> get('imdbID');
+        $nomFilm = $request -> request -> get('nom-film');
+
+//        Récupération globale
+//        $result = $request->request -> all();
+
+        $vote = new Vote();
+
+        $vote->setNote($note);
+        //  traitement de note sur all()
+//    $vote->setNote($result['note-film']);
+
+        $vote ->setImdbID($imdbID);
+        // traitement de ID sur all()
+//    $vote ->setImdbID($result['imdbID']);
+
+        $vote ->setNomFilm($nomFilm);
+        // traitement de nomsur all()
+//    $vote ->setImdbID($result['nom-film]);
+
+
+        $entityManager = $this ->getDoctrine()->getManager();
+
+//            Prépa requete
+        $entityManager ->persist($vote);
+//        Valider requete et flush
+        $entityManager ->flush();
+
+
+//        Renvoi des données et affichage de la vue
+        return $this->redirectToRoute('the-film' , [
+            'id' => $imdbID,
+//                'id' => $result['imdbID'],
+            'note' => $note,
+//                'note' => $result['note-film'],
+            'nomFilm' => $nomFilm,
+//                'nomFilm' => $result['nom-film'],
+        ]);
 
 
 
+    }
 
 }
